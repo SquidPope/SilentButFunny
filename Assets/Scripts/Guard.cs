@@ -19,6 +19,7 @@ public class Guard : MonoBehaviour
 
     AlertState alert;
     PatrolState patrol;
+    SlideState slide;
     StunState stun;
 
     bool canResumePatrol = false;
@@ -51,6 +52,12 @@ public class Guard : MonoBehaviour
                 canResumePatrol = true;
 
             currentState = value;
+
+            if (currentState == slide || currentState == stun) //Don't catch the player while stunned or sliding
+                view.IsActive = false;
+            else
+                view.IsActive = true;
+            
             currentState.EnterState();
         }
     }
@@ -72,6 +79,7 @@ public class Guard : MonoBehaviour
 
         alert = new AlertState(this);
         patrol = new PatrolState(patrolRoute, this);
+        slide = new SlideState(this);
         stun = new StunState(this);
 
         CurrentState = patrol; //ToDo: Testing, remove
@@ -79,6 +87,13 @@ public class Guard : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (CurrentState == slide)
+        {
+            //we hit something in a slide
+            CurrentState = stun;
+            return;
+        }
+
         if (other.gameObject.tag == "Player")
         {
             GameController.Instance.State = GameState.Over;
@@ -146,6 +161,7 @@ public class Guard : MonoBehaviour
             break;
 
             case GuardStateType.Slide:
+            CurrentState = slide;
             break;
 
             case GuardStateType.Stun:
