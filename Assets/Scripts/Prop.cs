@@ -18,7 +18,7 @@ public class Prop : MonoBehaviour
         set
         {
             isActive = value;
-            
+
             if (renderer != null)
                 renderer.enabled = value;
         }
@@ -28,6 +28,8 @@ public class Prop : MonoBehaviour
     {
         currentType = type; //ToDo: Set behavior
     }
+
+    public void SetPosition(Vector3 pos) { transform.position = pos; }
 
     public virtual void Init(){}
 

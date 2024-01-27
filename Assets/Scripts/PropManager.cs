@@ -52,9 +52,19 @@ public class PropManager : MonoBehaviour
     public void SetProp(PropType type, Vector3 position)
     {
         //find an inactive prop of the right type
+        Prop prop = propLists[(int)type].Find(x => x.IsActive == false);
+
+        if (prop == null)
+        {
+            //we used them all
+            //ToDo: Tell the player that
+            return;
+        }
         
-        //if there isn't one, let the player know they reached their max
         //put the prop in the right spot
+        prop.SetPosition(position);
+
         //activate it
+        prop.IsActive = true;
     }
 }
