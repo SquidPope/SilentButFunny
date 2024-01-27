@@ -11,6 +11,9 @@ public class AlertState : GuardState
     float speed = 27f;
     float dist = 0.2f;
 
+    float timer;
+    float patience = 7f;
+
     public AlertState(Guard g)
     {
         guard = g;
@@ -24,6 +27,19 @@ public class AlertState : GuardState
 
     public override void Tick()
     {
+        if (guard.CanSeePlayer)
+        {
+            target = PlayerController.Instance.GetPosition();
+        }
+        else
+        {
+            timer += Time.deltaTime;
+            if (timer >= patience)
+            {
+                guard.ChangeState(); //try to go back to patroling, we lost them.
+            }
+        }
+
         direction = target - guard.Position;
         direction = direction.normalized;
         guard.Direction = direction;

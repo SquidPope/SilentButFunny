@@ -29,13 +29,17 @@ public class GuardView : MonoBehaviour
         if (other.tag == "Player")
         {
             isPlayerInTrigger = true;
+            guard.CanSeePlayer = true;
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "Player")
+        {
             isPlayerInTrigger = false;
+            guard.CanSeePlayer = false;
+        }
     }
 
     void Update()

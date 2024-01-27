@@ -25,6 +25,7 @@ public class Guard : MonoBehaviour
     StunState stun;
 
     bool canResumePatrol = false;
+    bool canSeePlayer = false;
 
     Vector3 direction;
     Vector3 distractionSource;
@@ -37,6 +38,12 @@ public class Guard : MonoBehaviour
             direction = value;
             view.SetPosition(transform.position + direction);
         }
+    }
+
+    public bool CanSeePlayer
+    {
+        get { return canSeePlayer; }
+        set { canSeePlayer = value; }
     }
 
     public GuardState CurrentState
@@ -108,6 +115,11 @@ public class Guard : MonoBehaviour
         {
             ChangeState();
         }
+        else if (CurrentState == alert)
+        {
+            //we hit a wall trying to reach the player's location
+            //we should either give up, or shimmy left or right to try and get around
+        }
 
         if (other.gameObject.tag == "Player")
         {
@@ -159,6 +171,8 @@ public class Guard : MonoBehaviour
 
     public void ChangeState(GuardStateType type)
     {
+        Debug.Log($"{gameObject.name} changing to state {type}");
+
         switch (type)
         {
             case GuardStateType.Alert:
