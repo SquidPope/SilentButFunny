@@ -9,11 +9,19 @@ public class Prop : MonoBehaviour
     PropType currentType;
     List<Guard> nearbyGuards;
 
+    [SerializeField] SpriteRenderer renderer;
+
     bool isActive;
     public bool IsActive //PROPerty lol
     {
         get { return isActive; }
-        set { isActive = value; }
+        set
+        {
+            isActive = value;
+            
+            if (renderer != null)
+                renderer.enabled = value;
+        }
     }
 
     public void SetType(PropType type)

@@ -38,7 +38,6 @@ public class PropManager : MonoBehaviour
     List<Prop> GenerateObjectPool(int id)
     {
         List<Prop> list = new List<Prop>();
-        Debug.Log($"Max props for {id} is {maxProps[id]}");
         for (int i = 0; i <= maxProps[id]; i++)
         {
             Prop p = GameObject.Instantiate(propPrefabs[id], transform.position, Quaternion.identity).GetComponent<Prop>();
