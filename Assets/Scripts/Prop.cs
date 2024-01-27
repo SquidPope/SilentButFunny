@@ -6,7 +6,6 @@ public enum PropType {Banana, Snek, Teeth, WhoopieCushion, None}
 public class Prop : MonoBehaviour
 {
     // Object placed by a player, consists of a trigger area around a sprite
-    PropType currentType;
     protected List<Guard> nearbyGuards;
 
     [SerializeField] SpriteRenderer renderer;
@@ -24,9 +23,11 @@ public class Prop : MonoBehaviour
         }
     }
 
-    public void SetType(PropType type)
+    bool isUsed = false;
+    public bool IsUsed //Makes props only work once.
     {
-        currentType = type; //ToDo: Set behavior
+        get { return isUsed; }
+        set { isUsed = value; }
     }
 
     public void SetPosition(Vector3 pos) { transform.position = pos; }

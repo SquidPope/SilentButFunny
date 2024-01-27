@@ -11,17 +11,15 @@ public class SnekProp : Prop
     float timer = 0f;
     float timerMax = 3f; //ToDo: this feels right, make sure guards aren't too fast for it though
 
-    public override void Init()
-    {
-        base.Init();
-    }
-
     protected override void GuardEnteredTrigger(GameObject guardObj)
     {
-        base.GuardEnteredTrigger(guardObj);
-        armed = true;
+        if (!IsUsed)
+        {
+            base.GuardEnteredTrigger(guardObj);
+            armed = true;
 
-        Debug.Log($"There are {nearbyGuards.Count} guards here");
+            Debug.Log($"There are {nearbyGuards.Count} guards here");
+        }
     }
 
     protected override void GuardExitedTrigger(GameObject guardObj)
@@ -41,6 +39,7 @@ public class SnekProp : Prop
                 {
                     g.ChangeState(GuardStateType.Stun);
                     armed = false;
+                    IsUsed = true;
                 }
             }
         }

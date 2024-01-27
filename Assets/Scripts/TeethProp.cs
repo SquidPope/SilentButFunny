@@ -13,11 +13,11 @@ public class TeethProp : Prop
         base.GuardEnteredTrigger(guardObj);
 
         //attract guard if we're active
-        Guard g = guardObj.GetComponent<Guard>(); //ToDo: technically it's in the list, we should be able to get the newest item
+        Guard g = nearbyGuards.Find(x => x.gameObject == guardObj); // should be the newest item
         g.DistractionSource = transform.position;
         g.ChangeState(GuardStateType.Distract);
 
-        if (!IsActive)
+        if (!IsActive && !IsUsed)
         {
             IsActive = true;
             timer = 0f;
@@ -38,6 +38,8 @@ public class TeethProp : Prop
             {
                 Debug.Log("timer up");
                 IsActive = false;
+                IsUsed = true;
+
                 foreach(Guard g in nearbyGuards)
                 {
                     g.ChangeState();

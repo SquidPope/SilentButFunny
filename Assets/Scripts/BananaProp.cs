@@ -9,7 +9,11 @@ public class BananaProp : Prop
 
     protected override void GuardEnteredTrigger(GameObject guardObj)
     {
-        guard = guardObj.GetComponent<Guard>();
-        guard.ChangeState(GuardStateType.Slide);
+        if (IsActive && !IsUsed)
+        {
+            guard = guardObj.GetComponent<Guard>();
+            guard.ChangeState(GuardStateType.Slide);
+            IsUsed = true;
+        }
     }
 }

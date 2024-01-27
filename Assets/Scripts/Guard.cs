@@ -20,6 +20,7 @@ public class Guard : MonoBehaviour
     AlertState alert;
     DistractState distract;
     PatrolState patrol;
+    RepelState repel;
     SlideState slide;
     StunState stun;
 
@@ -88,6 +89,7 @@ public class Guard : MonoBehaviour
         alert = new AlertState(this);
         distract = new DistractState(this);
         patrol = new PatrolState(patrolRoute, this);
+        repel = new RepelState(this);
         slide = new SlideState(this);
         stun = new StunState(this);
 
@@ -101,6 +103,10 @@ public class Guard : MonoBehaviour
             //we hit something in a slide
             CurrentState = stun;
             return;
+        }
+        else if (CurrentState == repel)
+        {
+            ChangeState();
         }
 
         if (other.gameObject.tag == "Player")
@@ -168,6 +174,7 @@ public class Guard : MonoBehaviour
             break;
 
             case GuardStateType.Repel:
+            CurrentState = repel;
             break;
 
             case GuardStateType.Slide:
