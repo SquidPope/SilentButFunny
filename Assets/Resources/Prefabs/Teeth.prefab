@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 822503366303037961}
   - component: {fileID: 2593530961288788671}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Teeth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3000076716904629920}
   - component: {fileID: 8215239715050052651}
   - component: {fileID: 6900505441096494119}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Teeth
   m_TagString: Untagged
   m_Icon: {fileID: 0}

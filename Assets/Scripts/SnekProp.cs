@@ -5,7 +5,6 @@ using UnityEngine;
 public class SnekProp : Prop
 {
     // Prop that stuns nearby guards after a delay
-    List<Guard> guardsInTrigger;
     //ToDo: Countdown displaying over the object would be nice
 
     bool armed = false;
@@ -14,20 +13,20 @@ public class SnekProp : Prop
 
     public override void Init()
     {
-        guardsInTrigger = new List<Guard>();
+        base.Init();
     }
 
     protected override void GuardEnteredTrigger(GameObject guardObj)
     {
-        guardsInTrigger.Add(guardObj.GetComponent<Guard>());
+        base.GuardEnteredTrigger(guardObj);
         armed = true;
 
-        Debug.Log($"There are {guardsInTrigger.Count} guards here");
+        Debug.Log($"There are {nearbyGuards.Count} guards here");
     }
 
     protected override void GuardExitedTrigger(GameObject guardObj)
     {
-        guardsInTrigger.Remove(guardObj.GetComponent<Guard>());
+        base.GuardExitedTrigger(guardObj);
     }
 
     void Update()
@@ -38,7 +37,7 @@ public class SnekProp : Prop
             if (timer >= timerMax)
             {
                 //BOOM
-                foreach (Guard g in guardsInTrigger)
+                foreach (Guard g in nearbyGuards)
                 {
                     g.ChangeState(GuardStateType.Stun);
                     armed = false;

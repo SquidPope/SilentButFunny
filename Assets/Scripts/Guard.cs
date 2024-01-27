@@ -18,6 +18,7 @@ public class Guard : MonoBehaviour
     GuardState currentState;
 
     AlertState alert;
+    DistractState distract;
     PatrolState patrol;
     SlideState slide;
     StunState stun;
@@ -25,6 +26,7 @@ public class Guard : MonoBehaviour
     bool canResumePatrol = false;
 
     Vector3 direction;
+    Vector3 distractionSource;
 
     public Vector3 Direction
     {
@@ -68,6 +70,12 @@ public class Guard : MonoBehaviour
         set { transform.position = value; } //ToDo: do we need to go through the rigidbody for this?
     }
 
+    public Vector3 DistractionSource
+    {
+        get { return distractionSource; }
+        set { distractionSource = value; }
+    }
+
     public Rigidbody2D Rigid
     {
         get { return rigid; }
@@ -78,6 +86,7 @@ public class Guard : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
         alert = new AlertState(this);
+        distract = new DistractState(this);
         patrol = new PatrolState(patrolRoute, this);
         slide = new SlideState(this);
         stun = new StunState(this);
@@ -151,6 +160,7 @@ public class Guard : MonoBehaviour
             break;
 
             case GuardStateType.Distract:
+                CurrentState = distract;
             break;
 
             case GuardStateType.Patrol:

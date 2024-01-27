@@ -7,7 +7,7 @@ public class Prop : MonoBehaviour
 {
     // Object placed by a player, consists of a trigger area around a sprite
     PropType currentType;
-    List<Guard> nearbyGuards;
+    protected List<Guard> nearbyGuards;
 
     [SerializeField] SpriteRenderer renderer;
 
@@ -31,10 +31,21 @@ public class Prop : MonoBehaviour
 
     public void SetPosition(Vector3 pos) { transform.position = pos; }
 
-    public virtual void Init(){}
+    public virtual void Init()
+    {
+        nearbyGuards = new List<Guard>();
+    }
 
-    protected virtual void GuardEnteredTrigger(GameObject guardObj) {}
-    protected virtual void GuardExitedTrigger(GameObject guardObj) {}
+    protected virtual void GuardEnteredTrigger(GameObject guardObj)
+    {
+        Guard g = guardObj.GetComponent<Guard>();
+        nearbyGuards.Add(g);
+    }
+    protected virtual void GuardExitedTrigger(GameObject guardObj)
+    {
+        Guard g = guardObj.GetComponent<Guard>();
+        nearbyGuards.Remove(g);
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {

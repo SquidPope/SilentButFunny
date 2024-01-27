@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6230894995349351014}
   - component: {fileID: 494406091679311765}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Can
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6505535565072304512}
   - component: {fileID: 486845578435294685}
   - component: {fileID: 6993322068579575379}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Snek
   m_TagString: Untagged
   m_Icon: {fileID: 0}

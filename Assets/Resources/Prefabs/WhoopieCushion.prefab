@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8904834703427162530}
   - component: {fileID: 1078258440719557786}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WhoopieCushion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4842419855454400508}
   - component: {fileID: 50150133362598081}
   - component: {fileID: 9144698275374506657}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WhoopieCushion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
