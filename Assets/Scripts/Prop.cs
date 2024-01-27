@@ -10,7 +10,7 @@ public class Prop : MonoBehaviour
     List<Guard> nearbyGuards;
 
     bool isActive;
-    public bool IsActive
+    public bool IsActive //PROPerty lol
     {
         get { return isActive; }
         set { isActive = value; }
@@ -20,7 +20,7 @@ public class Prop : MonoBehaviour
     {
         currentType = type; //ToDo: Set behavior
     }
-    
+
     public virtual void Init(){}
 
     protected virtual void GuardEnteredTrigger(GameObject guardObj) {}

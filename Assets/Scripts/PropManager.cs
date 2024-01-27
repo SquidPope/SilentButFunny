@@ -5,13 +5,10 @@ using UnityEngine;
 public class PropManager : MonoBehaviour
 {
     // Keep track of prop pools
-    [SerializeField] GameObject bananaPrefab;
-    List<BananaProp> bananas;
-    int maxBananas = 7;
+    List<List<Prop>> propLists;
+    [SerializeField] List<GameObject> propPrefabs;
 
-    [SerializeField] GameObject snekPrefab;
-    List<SnekProp> sneks;
-    int maxSneks = 5;
+    [SerializeField] List<int> maxProps; //Per type
 
     static PropManager instance;
     public static PropManager Instance
@@ -30,28 +27,33 @@ public class PropManager : MonoBehaviour
 
     void Start()
     {
-        bananas = new List<BananaProp>();
-        for (int i = 0; i < maxBananas; i++)
+        propLists = new List<List<Prop>>();
+        for (int i = 0; i <= (int)PropType.None - 1; i++) //- 1 because None is not a valid type, it's just the total.
         {
-            BananaProp p = GameObject.Instantiate(bananaPrefab, transform.position, Quaternion.identity).GetComponent<BananaProp>();
+            List<Prop> list = GenerateObjectPool(i);
+            propLists.Add(list);
+        }
+    }
+
+    List<Prop> GenerateObjectPool(int id)
+    {
+        List<Prop> list = new List<Prop>();
+        Debug.Log($"Max props for {id} is {maxProps[id]}");
+        for (int i = 0; i <= maxProps[id]; i++)
+        {
+            Prop p = GameObject.Instantiate(propPrefabs[id], transform.position, Quaternion.identity).GetComponent<Prop>();
             p.Init();
             p.IsActive = false;
-            bananas.Add(p);
+            list.Add(p);
         }
 
-        sneks = new List<SnekProp>();
-        for (int i = 0; i < maxSneks; i++)
-        {
-            SnekProp p = GameObject.Instantiate(snekPrefab, transform.position, Quaternion.identity).GetComponent<SnekProp>();
-            p.Init();
-            p.IsActive = false;
-            sneks.Add(p);
-        }
+        return list;
     }
 
     public void SetProp(PropType type, Vector3 position)
     {
         //find an inactive prop of the right type
+        
         //if there isn't one, let the player know they reached their max
         //put the prop in the right spot
         //activate it

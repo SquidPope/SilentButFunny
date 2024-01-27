@@ -480,8 +480,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75069d4e29e68f645beb47f8b4cbc45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bananaPrefab: {fileID: 7969706216103119926, guid: 6d569fe609f73134fa8236953b22f8ea, type: 3}
-  snekPrefab: {fileID: 1491677089074610554, guid: 4de8e85250803fc46b4dbc3605f34c25, type: 3}
+  propPrefabs:
+  - {fileID: 7969706216103119926, guid: 6d569fe609f73134fa8236953b22f8ea, type: 3}
+  - {fileID: 1491677089074610554, guid: 4de8e85250803fc46b4dbc3605f34c25, type: 3}
+  - {fileID: 3825861879572823444, guid: 8cedcda56c7666047b234140cb94521d, type: 3}
+  - {fileID: 4033063663847974471, guid: f617fa440d0f24e42821ad2f59bec021, type: 3}
+  maxProps: 07000000030000000400000004000000
 --- !u!4 &1159944947
 Transform:
   m_ObjectHideFlags: 0
