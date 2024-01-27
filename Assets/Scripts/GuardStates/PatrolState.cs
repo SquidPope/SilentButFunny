@@ -29,7 +29,7 @@ public class PatrolState : GuardState
             point = points[0];
     }
 
-    public override void Tick()
+    public override void Tick() //ToDo: Save the direction, we might need it for banana
     {
         //move to current point
         Vector3 direction = point.position - guard.Position;
@@ -39,17 +39,12 @@ public class PatrolState : GuardState
         //if we're close enough, go to the next point
         if (Vector3.Distance(guard.Position, point.position) <= dist)
         {
-            guard.Position = point.position;
+            guard.Rigid.MovePosition(point.position);
             id++;
             if (id >= points.Count)
                 id = 0;
 
             point = points[id];
         }
-    }
-
-    public override void EndState()
-    {
-        point = null;
     }
 }

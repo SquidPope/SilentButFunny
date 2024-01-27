@@ -23,8 +23,9 @@ public class Guard : MonoBehaviour
         get { return currentState; }
         set
         {
+            //if our state was patrol and becomes stun, we can just go back to patrol at the end
             if (currentState != null)
-                currentState.EndState();
+                currentState.ExitState();
 
             currentState = value;
             currentState.EnterState();

@@ -9,5 +9,5 @@ public class GuardState
 
     public virtual void EnterState() { }
     public virtual void Tick() { }
-    public virtual void EndState() { }
+    public virtual void ExitState() { }
 }

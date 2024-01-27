@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     float speed = 8f;
     Vector2 movement;
 
+    int selectedProp = 0;
+
     void Update()
     {
         movement = Vector2.zero;
@@ -38,5 +40,27 @@ public class PlayerController : MonoBehaviour
         movement.y *= Time.deltaTime;
 
         transform.Translate(new Vector3(movement.x, movement.y, 0f));
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") == 1)
+        {
+            selectedProp++;
+            if (selectedProp >= (int)PropType.None)
+                selectedProp = 0;
+
+            Debug.Log($"Selected {selectedProp}");
+        }
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") == -1)
+        {
+            selectedProp--;
+            if (selectedProp < 0)
+                selectedProp = (int)PropType.None - 1;
+
+            Debug.Log($"Selected {selectedProp}");
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            PropManager.Instance.SetProp((PropType)selectedProp, transform.position);
+        }
     }
 }
