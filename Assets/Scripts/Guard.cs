@@ -9,16 +9,30 @@ public class Guard : MonoBehaviour
     //should be a gameover if it hits the player (unless they have a panic item?)
     //follows a route until moved out of it by a prop
     //can be slid, stunned, repelled, distracted, alert(saw the player, heading towards them)
+    [SerializeField] GuardView view;
     [SerializeField] List<Transform> patrolRoute;
 
     Rigidbody2D rigid;
 
     GuardState currentState;
 
+    AlertState alert;
     PatrolState patrol;
     StunState stun;
 
     bool canResumePatrol = false;
+
+    Vector3 direction;
+
+    public Vector3 Direction
+    {
+        get { return direction; }
+        set
+        {
+            direction = value;
+            view.SetPosition(transform.position + direction);
+        }
+    }
 
     public GuardState CurrentState
     {
@@ -26,6 +40,9 @@ public class Guard : MonoBehaviour
         set
         {
             //if our state was patrol and becomes stun, we can just go back to patrol at the end
+            if (CurrentState == value) //Don't set the state again if we're already in that state.
+                return;
+
             if (currentState != null)
                 currentState.ExitState();
 
@@ -51,6 +68,8 @@ public class Guard : MonoBehaviour
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
+
+        alert = new AlertState(this);
         patrol = new PatrolState(patrolRoute, this);
         stun = new StunState(this);
 
@@ -78,6 +97,7 @@ public class Guard : MonoBehaviour
         switch (type)
         {
             case GuardStateType.Alert:
+            CurrentState = alert;
             break;
 
             case GuardStateType.Distract:

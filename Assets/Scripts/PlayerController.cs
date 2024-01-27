@@ -10,6 +10,23 @@ public class PlayerController : MonoBehaviour
 
     int selectedProp = 0;
 
+    static PlayerController instance;
+    public static PlayerController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                GameObject go = GameObject.FindGameObjectWithTag("Player");
+                instance = go.GetComponent<PlayerController>();
+            }
+
+            return instance;
+        }
+    }
+
+    public Vector3 GetPosition() { return transform.position; }
+
     void Update()
     {
         movement = Vector2.zero;

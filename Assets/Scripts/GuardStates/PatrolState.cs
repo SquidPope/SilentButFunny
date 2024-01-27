@@ -27,14 +27,16 @@ public class PatrolState : GuardState
     {
         if (point == null)
             point = points[0];
+        //else if- linecast towards point, see if we can reach it?
     }
 
-    public override void Tick() //ToDo: Save the direction, we might need it for banana
+    public override void Tick()
     {
         //move to current point
         Vector3 direction = point.position - guard.Position;
-        direction = direction.normalized * speed * Time.deltaTime;
-        guard.Rigid.MovePosition(guard.Position + direction);
+        direction = direction.normalized;
+        guard.Direction = direction;
+        guard.Rigid.MovePosition(guard.Position + direction * speed * Time.deltaTime);
 
         //if we're close enough, go to the next point
         if (Vector3.Distance(guard.Position, point.position) <= dist)
