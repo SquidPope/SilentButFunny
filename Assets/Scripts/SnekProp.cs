@@ -21,6 +21,8 @@ public class SnekProp : Prop
     {
         guardsInTrigger.Add(guardObj.GetComponent<Guard>());
         armed = true;
+
+        Debug.Log($"There are {guardsInTrigger.Count} guards here");
     }
 
     protected override void GuardExitedTrigger(GameObject guardObj)

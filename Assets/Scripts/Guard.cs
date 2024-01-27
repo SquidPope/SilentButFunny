@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GuardStateType {Patrol, Stun}
+public enum GuardStateType {Alert, Distract, Patrol, Repel, Slide, Stun}
 public class Guard : MonoBehaviour
 {
     // Enemy the player must stealth around
@@ -18,6 +18,8 @@ public class Guard : MonoBehaviour
     PatrolState patrol;
     StunState stun;
 
+    bool canResumePatrol = false;
+
     public GuardState CurrentState
     {
         get { return currentState; }
@@ -26,6 +28,9 @@ public class Guard : MonoBehaviour
             //if our state was patrol and becomes stun, we can just go back to patrol at the end
             if (currentState != null)
                 currentState.ExitState();
+
+            if (currentState == patrol && value == stun)
+                canResumePatrol = true;
 
             currentState = value;
             currentState.EnterState();
@@ -57,14 +62,35 @@ public class Guard : MonoBehaviour
         //figure out next state
         //are we on our patrol route (can we see one of the points?) if so, just go to patrol mode and set the visible point as the next one
         //if not, how do we reach a point to see our patrol?
+
+        if (CurrentState != patrol) //If we aren't patroling try to go back to the patrol route
+        {
+            if (canResumePatrol)
+            {
+                ChangeState(GuardStateType.Patrol);
+                return;
+            }
+        }
     }
 
     public void ChangeState(GuardStateType type)
     {
         switch (type)
         {
+            case GuardStateType.Alert:
+            break;
+
+            case GuardStateType.Distract:
+            break;
+
             case GuardStateType.Patrol:
             CurrentState = patrol;
+            break;
+
+            case GuardStateType.Repel:
+            break;
+
+            case GuardStateType.Slide:
             break;
 
             case GuardStateType.Stun:
