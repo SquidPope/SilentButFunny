@@ -7,8 +7,9 @@ public class Guard : MonoBehaviour
 {
     // Enemy the player must stealth around
     //should be a gameover if it hits the player (unless they have a panic item?)
-    //follows a route until moved out of it by a prop
+    //follows a route until moved out of it by a prop, or spotting the player
     //can be slid, stunned, repelled, distracted, alert(saw the player, heading towards them)
+
     [SerializeField] GuardView view;
     [SerializeField] List<Transform> patrolRoute;
 
@@ -74,6 +75,14 @@ public class Guard : MonoBehaviour
         stun = new StunState(this);
 
         CurrentState = patrol; //ToDo: Testing, remove
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            GameController.Instance.State = GameState.Over;
+        }
     }
 
     public void ChangeState()
