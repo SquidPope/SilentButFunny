@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
+public class PropSelectionEvent : UnityEvent<PropType> { }
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigid;
@@ -11,6 +13,9 @@ public class PlayerController : MonoBehaviour
     Vector2 movement;
 
     int selectedProp = 0;
+
+    PropSelectionEvent propSelect = new PropSelectionEvent();
+    public PropSelectionEvent PropSelect { get { return propSelect; } }
 
     static PlayerController instance;
     public static PlayerController Instance
@@ -65,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
         rigid.MovePosition(transform.position + new Vector3(movement.x, movement.y, 0f));
 
+        //ToDo: should probably limit how many times per second the selection can change?
         if (Input.mouseScrollDelta.y > 0f)
         {
             selectedProp++;
@@ -72,6 +78,7 @@ public class PlayerController : MonoBehaviour
                 selectedProp = 0;
 
             Debug.Log($"Selected {selectedProp}");
+            PropSelect.Invoke((PropType)selectedProp);
         }
         else if (Input.mouseScrollDelta.y < 0f)
         {
@@ -80,6 +87,7 @@ public class PlayerController : MonoBehaviour
                 selectedProp = (int)PropType.None - 1;
 
             Debug.Log($"Selected {selectedProp}");
+            PropSelect.Invoke((PropType)selectedProp);
         }
 
         if (Input.GetMouseButtonUp(0))
