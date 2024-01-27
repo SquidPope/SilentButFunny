@@ -98,7 +98,33 @@ public class Guard : MonoBehaviour
                 ChangeState(GuardStateType.Patrol);
                 return;
             }
+            else
+            {
+                //try to see if we can reach one of the points
+                for (int i = 0; i < patrolRoute.Count; i++)
+                {
+                    //linecast towards the point
+                    RaycastHit2D hit;
+                    hit = Physics2D.Linecast(transform.position, patrolRoute[i].position);
+
+                    if (hit.collider == null)
+                    {
+                        //we found a point!
+                        patrol.SetPoint(patrolRoute[i]);
+                        CurrentState = patrol;
+                        return;
+                    }
+                    else
+                    {
+                        //There's something in the way, try another node.
+                        Debug.Log($"Hit {hit.collider.gameObject.name}!");
+                    }
+                }
+
+                //If we reach here it means we can't see any of the patrol points- enter a wander state?
+            }
         }
+        //Come to think of it, if we are patroling we shouldn't be here...
     }
 
     public void ChangeState(GuardStateType type)

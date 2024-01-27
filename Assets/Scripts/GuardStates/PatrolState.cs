@@ -27,7 +27,6 @@ public class PatrolState : GuardState
     {
         if (point == null)
             point = points[0];
-        //else if- linecast towards point, see if we can reach it?
     }
 
     public override void Tick()
