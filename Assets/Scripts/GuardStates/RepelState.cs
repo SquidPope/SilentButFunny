@@ -13,6 +13,7 @@ public class RepelState : GuardState
     public override void EnterState()
     {
         direction = -guard.Direction;
+        guard.Direction = direction; //Set the guard's direction so their view will update
     }
 
     public override void Tick()

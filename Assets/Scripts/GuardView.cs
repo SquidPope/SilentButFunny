@@ -8,6 +8,8 @@ public class GuardView : MonoBehaviour
     [SerializeField] Guard guard;
 
     bool isActive = true;
+    bool isPlayerInTrigger = false;
+
     public bool IsActive
     {
         get { return isActive; }
@@ -19,14 +21,31 @@ public class GuardView : MonoBehaviour
         transform.position = position;//local?
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (!IsActive)
             return;
 
         if (other.tag == "Player")
         {
-            guard.ChangeState(GuardStateType.Alert);
+            isPlayerInTrigger = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+            isPlayerInTrigger = false;
+    }
+
+    void Update()
+    {
+        if (IsActive && isPlayerInTrigger)
+        {
+            //Checking that the player isn't behind a wall
+            RaycastHit2D hit = Physics2D.Linecast(guard.Position, PlayerController.Instance.GetPosition());
+            if (hit.collider == null)
+                guard.ChangeState(GuardStateType.Alert);
         }
     }
 }

@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    float speed = 8f;
+    Rigidbody2D rigid;
+
+    float speed = 38f;
     Vector2 movement;
 
     int selectedProp = 0;
@@ -26,6 +28,11 @@ public class PlayerController : MonoBehaviour
     }
 
     public Vector3 GetPosition() { return transform.position; }
+
+    private void Start()
+    {
+        rigid = gameObject.GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
@@ -56,7 +63,7 @@ public class PlayerController : MonoBehaviour
         movement.x *= Time.deltaTime;
         movement.y *= Time.deltaTime;
 
-        transform.Translate(new Vector3(movement.x, movement.y, 0f));
+        rigid.MovePosition(transform.position + new Vector3(movement.x, movement.y, 0f));
 
         if (Input.mouseScrollDelta.y > 0f)
         {
