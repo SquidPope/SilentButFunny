@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(new Vector3(movement.x, movement.y, 0f));
 
-        if (Input.GetAxisRaw("Mouse ScrollWheel") == 1)
+        if (Input.mouseScrollDelta.y > 0f)
         {
             selectedProp++;
             if (selectedProp >= (int)PropType.None)
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log($"Selected {selectedProp}");
         }
-        else if (Input.GetAxisRaw("Mouse ScrollWheel") == -1)
+        else if (Input.mouseScrollDelta.y < 0f)
         {
             selectedProp--;
             if (selectedProp < 0)
