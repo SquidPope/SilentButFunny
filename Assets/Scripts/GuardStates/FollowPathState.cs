@@ -10,7 +10,7 @@ public class FollowPathState : GuardState
     Vector3 target;
     Vector3 direction;
 
-    float speed = 20f;
+    float speed = 5f;
     float dist = 0.1f;
 
     public FollowPathState(Guard g) { guard = g; }

@@ -226,7 +226,7 @@ public class Guard : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (currentState != null)
             currentState.Tick();

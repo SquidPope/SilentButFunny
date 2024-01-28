@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image selectedPropImage;
 
     [SerializeField] GameObject deathPanel;
+    [SerializeField] GameObject howToPlayPanel;
     [SerializeField] GameObject menuPanel;
     [SerializeField] GameObject winPanel;
 
@@ -19,6 +20,7 @@ public class UIManager : MonoBehaviour
     {
         PlayerController.Instance.PropSelect.AddListener(PropSelect);
         deathPanel.SetActive(false);
+        howToPlayPanel.SetActive(true);
         menuPanel.SetActive(false);
         winPanel.SetActive(false);
 
@@ -56,5 +58,17 @@ public class UIManager : MonoBehaviour
     public void ResumeClicked()
     {
         GameController.Instance.State = GameState.Playing;
+    }
+
+    private void Update()
+    {
+        if (GameController.Instance.State == GameState.Begin)
+        {
+            if (Input.anyKey)
+            {
+                GameController.Instance.State = GameState.Playing;
+                howToPlayPanel.SetActive(false);
+            }
+        }
     }
 }

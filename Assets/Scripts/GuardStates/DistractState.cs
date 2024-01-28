@@ -6,7 +6,7 @@ using UnityEngine;
 public class DistractState : GuardState
 {
     // State where the guard is distracted by a prop- should move towards it and stay there until it deactivates
-    float speed = 18f;
+    float speed = 7f;
     float dist = 0.2f;
 
     Vector3 distractionSource;

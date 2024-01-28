@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum GameState {Menu, Playing, Over, Win}
+public enum GameState {Begin, Menu, Playing, Over, Win}
 public class GameStateChange : UnityEvent<GameState> { }
 public class GameController : MonoBehaviour
 {
@@ -39,22 +39,27 @@ public class GameController : MonoBehaviour
             state = value;
             Debug.Log($"State changed to {state}");
             StateChange.Invoke(state);
+
+            if (state != GameState.Begin)
+                Time.timeScale = 1f;
         }
     }
 
     private void Awake()
     {
         mcGuffins = new List<McGuffin>();
+        Time.timeScale = 0f;
     }
 
     private void Start()
     {
-        State = GameState.Playing;
+        State = GameState.Begin;
     }
 
     public void AddMcGuffin(McGuffin mcGuffin)
     {
         mcGuffins.Add(mcGuffin);
+        Debug.Log("Adding goal");
     }
 
     public void CheckWin()

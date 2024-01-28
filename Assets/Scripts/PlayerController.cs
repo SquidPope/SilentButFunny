@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigid;
 
-    float speed = 38f;
+    float speed = 8f;
     Vector2 movement;
 
     int selectedProp = 0;
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         movement = Vector2.zero;
 

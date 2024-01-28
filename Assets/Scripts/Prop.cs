@@ -9,6 +9,7 @@ public class Prop : MonoBehaviour
     protected List<Guard> nearbyGuards;
 
     [SerializeField] SpriteRenderer renderer;
+    Vector3 startPos;
 
     bool isActive;
     public bool IsActive //PROPerty lol
@@ -20,6 +21,9 @@ public class Prop : MonoBehaviour
 
             if (renderer != null)
                 renderer.enabled = value;
+
+            if (!isActive)
+                transform.position = startPos;
         }
     }
 
@@ -28,6 +32,7 @@ public class Prop : MonoBehaviour
     public virtual void Init()
     {
         nearbyGuards = new List<Guard>();
+        startPos = transform.position;
     }
 
     protected virtual void GuardEnteredTrigger(GameObject guardObj)
