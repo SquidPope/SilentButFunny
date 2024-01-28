@@ -35,7 +35,9 @@ public class GameController : MonoBehaviour
         get { return state; }
         set
         {
-            //ToDo: If value is win, make sure all active goals are finished
+            if (state == GameState.Over || state == GameState.Win) //Don't bother changing the state anymore if the game is finished.
+                return;
+
             state = value;
             Debug.Log($"State changed to {state}");
             StateChange.Invoke(state);

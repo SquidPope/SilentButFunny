@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
 
     int selectedProp = 0;
 
+    float scrollTimer = 0f;
+    float scrollDelay = 0.2f; //how often to register the scroll wheel change
+
     PropSelectionEvent propSelect = new PropSelectionEvent();
     public PropSelectionEvent PropSelect { get { return propSelect; } }
 
@@ -37,6 +40,39 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        scrollTimer += Time.deltaTime;
+        if (scrollTimer >= scrollDelay)
+        {
+            if (Input.mouseScrollDelta.y > 0f)
+            {
+                selectedProp++;
+                if (selectedProp >= (int)PropType.None - 1)
+                    selectedProp = 0;
+
+                Debug.Log($"Selected {selectedProp}");
+                PropSelect.Invoke((PropType)selectedProp);
+                scrollTimer = 0f;
+            }
+            else if (Input.mouseScrollDelta.y < 0f)
+            {
+                selectedProp--;
+                if (selectedProp < 0)
+                    selectedProp = (int)PropType.None - 1;
+
+                Debug.Log($"Selected {selectedProp}");
+                PropSelect.Invoke((PropType)selectedProp);
+                scrollTimer = 0f;
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            PropManager.Instance.SetProp((PropType)selectedProp, transform.position);
+        }
     }
 
     void FixedUpdate()
@@ -69,30 +105,5 @@ public class PlayerController : MonoBehaviour
         movement.y *= Time.deltaTime;
 
         rigid.MovePosition(transform.position + new Vector3(movement.x, movement.y, 0f));
-
-        //ToDo: should probably limit how many times per second the selection can change?
-        if (Input.mouseScrollDelta.y > 0f)
-        {
-            selectedProp++;
-            if (selectedProp >= (int)PropType.None - 1)
-                selectedProp = 0;
-
-            Debug.Log($"Selected {selectedProp}");
-            PropSelect.Invoke((PropType)selectedProp);
-        }
-        else if (Input.mouseScrollDelta.y < 0f)
-        {
-            selectedProp--;
-            if (selectedProp < 0)
-                selectedProp = (int)PropType.None - 1;
-
-            Debug.Log($"Selected {selectedProp}");
-            PropSelect.Invoke((PropType)selectedProp);
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            PropManager.Instance.SetProp((PropType)selectedProp, transform.position);
-        }
     }
 }
