@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GuardStateType {Alert, Distract, Patrol, Repel, Slide, Stun}
+public enum GuardStateType {Alert, Distract,FollowPath, Patrol, Repel, Slide, Stun}
 public class Guard : MonoBehaviour
 {
     // Enemy the player must stealth around
@@ -13,12 +13,15 @@ public class Guard : MonoBehaviour
     [SerializeField] GuardView view;
     [SerializeField] List<Transform> patrolRoute;
 
+    List<Vector3> path; //List of positions we can follow back to our patrol route.
+
     Rigidbody2D rigid;
 
     GuardState currentState;
 
     AlertState alert;
     DistractState distract;
+    FollowPathState followPath;
     PatrolState patrol;
     RepelState repel;
     SlideState slide;
@@ -29,6 +32,9 @@ public class Guard : MonoBehaviour
 
     Vector3 direction;
     Vector3 distractionSource;
+
+    float pathTimer = 0f;
+    float pathInterval = 1f;
 
     public Vector3 Direction
     {
@@ -95,12 +101,15 @@ public class Guard : MonoBehaviour
 
         alert = new AlertState(this);
         distract = new DistractState(this);
+        followPath = new FollowPathState(this);
         patrol = new PatrolState(patrolRoute, this);
         repel = new RepelState(this);
         slide = new SlideState(this);
         stun = new StunState(this);
 
         CurrentState = patrol; //ToDo: Testing, remove
+
+        path = new List<Vector3>();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -163,7 +172,12 @@ public class Guard : MonoBehaviour
                     }
                 }
 
-                //If we reach here it means we can't see any of the patrol points- enter a wander state?
+                //If we reach here it means we can't see any of the patrol points, follow the path we made back
+                if (path.Count > 0)
+                {
+                    followPath.SetPath(path);
+                    ChangeState(GuardStateType.FollowPath);
+                }
             }
         }
         //Come to think of it, if we are patroling we shouldn't be here...
@@ -180,7 +194,11 @@ public class Guard : MonoBehaviour
             break;
 
             case GuardStateType.Distract:
-                CurrentState = distract;
+            CurrentState = distract;
+            break;
+
+            case GuardStateType.FollowPath:
+            CurrentState = followPath;
             break;
 
             case GuardStateType.Patrol:
@@ -210,5 +228,15 @@ public class Guard : MonoBehaviour
     {
         if (currentState != null)
             currentState.Tick();
+
+        if (CurrentState == slide || CurrentState == repel || CurrentState == alert)
+        {
+            pathTimer += Time.deltaTime;
+            if (pathTimer >= pathInterval)
+            {
+                pathTimer = 0f;
+                path.Add(transform.position);
+            }
+        }
     }
 }
