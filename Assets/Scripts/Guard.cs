@@ -12,6 +12,7 @@ public class Guard : MonoBehaviour
 
     [SerializeField] GuardView view;
     [SerializeField] List<Transform> patrolRoute;
+    [SerializeField] GameObject alertObj;
 
     List<Vector3> path; //List of positions we can follow back to our patrol route.
 
@@ -43,6 +44,7 @@ public class Guard : MonoBehaviour
         {
             direction = value;
             view.SetPosition(transform.position + direction);
+            view.Facing = direction;
         }
     }
 
@@ -73,6 +75,11 @@ public class Guard : MonoBehaviour
                 view.IsActive = false;
             else
                 view.IsActive = true;
+
+            if (currentState == alert)
+                alertObj.SetActive(true);
+            else
+                alertObj.SetActive(false);
             
             currentState.EnterState();
         }
@@ -110,6 +117,7 @@ public class Guard : MonoBehaviour
         CurrentState = patrol; //ToDo: Testing, remove
 
         path = new List<Vector3>();
+        alertObj.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

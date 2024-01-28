@@ -16,6 +16,12 @@ public class GuardView : MonoBehaviour
         set { isActive = value; }
     }
 
+    public Vector3 Facing
+    {
+        get { return transform.up; }
+        set { transform.up = value; }
+    }
+
     public void SetPosition(Vector3 position)
     {
         transform.position = position;//local?
