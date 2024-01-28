@@ -8,7 +8,7 @@ public class AlertState : GuardState
     Vector3 target;
     Vector3 direction;
 
-    float speed = 7.5f;
+    float speed = 6.5f;
     float dist = 0.2f;
 
     float timer;

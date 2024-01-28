@@ -8,7 +8,7 @@ public class PatrolState : GuardState
     List<Transform> points;
     Transform point; //current target
     int id = 0;
-    float speed = 5f;
+    float speed = 4f;
     float dist = 0.25f; //distance at which we should just set our position to the current point and move to the next one.
 
     public PatrolState (List<Transform> patrolPoints, Guard g)

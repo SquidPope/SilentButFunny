@@ -69,6 +69,16 @@ public class Guard : MonoBehaviour
             if (currentState == patrol && value == stun)
                 canResumePatrol = true;
 
+            if (value == alert && currentState != alert)
+            {
+                alertObj.SetActive(true);
+                AudioManager.Instance.PlaySFX(SFXType.Alert);
+            }
+            else if (value != alert)
+            {
+                alertObj.SetActive(false);
+            }
+
             currentState = value;
 
             if (currentState == slide || currentState == stun) //Don't catch the player while stunned or sliding
@@ -76,10 +86,7 @@ public class Guard : MonoBehaviour
             else
                 view.IsActive = true;
 
-            if (currentState == alert)
-                alertObj.SetActive(true);
-            else
-                alertObj.SetActive(false);
+            
             
             currentState.EnterState();
         }
@@ -201,7 +208,6 @@ public class Guard : MonoBehaviour
         {
             case GuardStateType.Alert:
             CurrentState = alert;
-            AudioManager.Instance.PlaySFX(SFXType.Alert);
             break;
 
             case GuardStateType.Distract:

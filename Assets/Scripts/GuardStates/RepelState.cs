@@ -5,7 +5,7 @@ using UnityEngine;
 public class RepelState : GuardState
 {
     // State where the guard is repeled by a prop- basically a reverse
-    float speed = 9f;
+    float speed = 8f;
     Vector3 direction;
 
     public RepelState(Guard g) { guard = g; }
