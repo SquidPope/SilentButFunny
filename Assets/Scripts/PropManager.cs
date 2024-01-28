@@ -10,6 +10,9 @@ public class PropManager : MonoBehaviour
 
     [SerializeField] List<int> maxProps; //Per type
 
+    //ToDo: Print this out for the player on win/death?
+    int[] propUses; //Keeps track of how many times the player used each prop.
+
     GameState currentState;
 
     static PropManager instance;
@@ -38,6 +41,8 @@ public class PropManager : MonoBehaviour
 
         GameController.Instance.StateChange.AddListener(StateChange);
         currentState = GameState.Playing; //Make sure that we know we're playing, since this sometimes gets set before the listener is attached.
+
+        propUses = new int[(int)PropType.None - 1];
     }
 
     public void StateChange(GameState state)
@@ -80,5 +85,7 @@ public class PropManager : MonoBehaviour
 
         //activate it
         prop.IsActive = true;
+
+        propUses[(int)type]++;
     }
 }

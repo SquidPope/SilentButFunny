@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         if (Input.mouseScrollDelta.y > 0f)
         {
             selectedProp++;
-            if (selectedProp >= (int)PropType.None)
+            if (selectedProp >= (int)PropType.None - 1)
                 selectedProp = 0;
 
             Debug.Log($"Selected {selectedProp}");

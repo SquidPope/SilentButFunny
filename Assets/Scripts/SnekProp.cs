@@ -13,13 +13,10 @@ public class SnekProp : Prop
 
     protected override void GuardEnteredTrigger(GameObject guardObj)
     {
-        if (!IsUsed)
-        {
-            base.GuardEnteredTrigger(guardObj);
-            armed = true;
+        base.GuardEnteredTrigger(guardObj);
+        armed = true;
 
-            Debug.Log($"There are {nearbyGuards.Count} guards here");
-        }
+        Debug.Log($"There are {nearbyGuards.Count} guards here");
     }
 
     protected override void GuardExitedTrigger(GameObject guardObj)
@@ -40,7 +37,8 @@ public class SnekProp : Prop
                     g.ChangeState(GuardStateType.Stun);
                     AudioManager.Instance.PlaySFX(SFXType.SnekStun);
                     armed = false;
-                    IsUsed = true;
+                    IsActive = false;
+                    timer = 0f;
                 }
             }
         }

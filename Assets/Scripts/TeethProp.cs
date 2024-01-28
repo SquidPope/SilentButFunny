@@ -5,7 +5,7 @@ using UnityEngine;
 public class TeethProp : Prop
 {
     // Prop that attracts nearby guards
-    float timer;
+    float timer = 0f;
     float duration = 15f;
 
     protected override void GuardEnteredTrigger(GameObject guardObj)
@@ -13,17 +13,12 @@ public class TeethProp : Prop
         base.GuardEnteredTrigger(guardObj);
 
         //attract guard if we're active
-        if (!IsUsed)
-        {
-            IsActive = true;
-            timer = 0f;
 
-            Guard g = nearbyGuards.Find(x => x.gameObject == guardObj); // should be the newest item
-            g.DistractionSource = transform.position;
-            g.ChangeState(GuardStateType.Distract);
+        Guard g = nearbyGuards.Find(x => x.gameObject == guardObj); // should be the newest item
+        g.DistractionSource = transform.position;
+        g.ChangeState(GuardStateType.Distract);
 
-            AudioManager.Instance.PlaySFX(SFXType.TeethChatter);
-        }
+        AudioManager.Instance.PlaySFX(SFXType.TeethChatter);
     }
 
     protected override void GuardExitedTrigger(GameObject guardObj)
@@ -40,9 +35,9 @@ public class TeethProp : Prop
             {
                 Debug.Log("timer up");
                 IsActive = false;
-                IsUsed = true;
+                timer = 0f;
 
-                foreach(Guard g in nearbyGuards)
+                foreach (Guard g in nearbyGuards)
                 {
                     g.ChangeState();
                 }

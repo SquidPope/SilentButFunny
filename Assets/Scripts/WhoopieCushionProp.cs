@@ -11,7 +11,7 @@ public class WhoopieCushionProp : Prop
     protected override void GuardEnteredTrigger(GameObject guardObj)
     {
         base.GuardEnteredTrigger(guardObj);
-        if (!IsActive && !IsUsed)
+        if (!IsActive)
         {
             IsActive = true;
             timer = 0f;
@@ -34,7 +34,6 @@ public class WhoopieCushionProp : Prop
         if (timer >= duration)
         {
             IsActive = false;
-            IsUsed = true;
         }
     }
 }

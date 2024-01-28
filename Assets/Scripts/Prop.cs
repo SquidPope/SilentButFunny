@@ -23,13 +23,6 @@ public class Prop : MonoBehaviour
         }
     }
 
-    bool isUsed = false;
-    public bool IsUsed //Makes props only work once.
-    {
-        get { return isUsed; }
-        set { isUsed = value; }
-    }
-
     public void SetPosition(Vector3 pos) { transform.position = pos; }
 
     public virtual void Init()

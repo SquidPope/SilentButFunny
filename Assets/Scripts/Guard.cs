@@ -191,6 +191,7 @@ public class Guard : MonoBehaviour
         {
             case GuardStateType.Alert:
             CurrentState = alert;
+            AudioManager.Instance.PlaySFX(SFXType.Alert);
             break;
 
             case GuardStateType.Distract:

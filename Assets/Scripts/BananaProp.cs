@@ -9,11 +9,11 @@ public class BananaProp : Prop
 
     protected override void GuardEnteredTrigger(GameObject guardObj)
     {
-        if (IsActive && !IsUsed)
+        if (IsActive)
         {
             guard = guardObj.GetComponent<Guard>();
             guard.ChangeState(GuardStateType.Slide);
-            IsUsed = true;
+            IsActive = false;
 
             AudioManager.Instance.PlaySFX(SFXType.BananaSlip);
         }
