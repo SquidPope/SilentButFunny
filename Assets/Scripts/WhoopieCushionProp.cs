@@ -19,6 +19,8 @@ public class WhoopieCushionProp : Prop
 
         Guard g = nearbyGuards.Find(x => x.gameObject == guardObj);
         g.ChangeState(GuardStateType.Repel);
+
+        AudioManager.Instance.PlaySFX(SFXType.WhoopieCushion);
     }
 
     protected override void GuardExitedTrigger(GameObject guardObj)

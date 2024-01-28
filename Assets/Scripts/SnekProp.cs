@@ -38,6 +38,7 @@ public class SnekProp : Prop
                 foreach (Guard g in nearbyGuards)
                 {
                     g.ChangeState(GuardStateType.Stun);
+                    AudioManager.Instance.PlaySFX(SFXType.SnekStun);
                     armed = false;
                     IsUsed = true;
                 }

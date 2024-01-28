@@ -10,6 +10,8 @@ public class PropManager : MonoBehaviour
 
     [SerializeField] List<int> maxProps; //Per type
 
+    GameState currentState;
+
     static PropManager instance;
     public static PropManager Instance
     {
@@ -33,6 +35,14 @@ public class PropManager : MonoBehaviour
             List<Prop> list = GenerateObjectPool(i);
             propLists.Add(list);
         }
+
+        GameController.Instance.StateChange.AddListener(StateChange);
+        currentState = GameState.Playing; //Make sure that we know we're playing, since this sometimes gets set before the listener is attached.
+    }
+
+    public void StateChange(GameState state)
+    {
+        currentState = state;
     }
 
     List<Prop> GenerateObjectPool(int id)
@@ -51,6 +61,10 @@ public class PropManager : MonoBehaviour
 
     public void SetProp(PropType type, Vector3 position)
     {
+        Debug.Log($"State is {currentState}");
+        if (currentState != GameState.Playing)
+            return;
+
         //find an inactive prop of the right type
         Prop prop = propLists[(int)type].Find(x => x.IsActive == false);
 

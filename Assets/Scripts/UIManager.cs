@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -9,12 +10,32 @@ public class UIManager : MonoBehaviour
     [SerializeField] List<Sprite> propSprites;
 
     [SerializeField] Image selectedPropImage;
+
+    [SerializeField] GameObject deathPanel;
     [SerializeField] GameObject menuPanel;
+    [SerializeField] GameObject winPanel;
 
     private void Start()
     {
         PlayerController.Instance.PropSelect.AddListener(PropSelect);
+        deathPanel.SetActive(false);
         menuPanel.SetActive(false);
+        winPanel.SetActive(false);
+
+        GameController.Instance.StateChange.AddListener(StateChange);
+    }
+
+    public void StateChange(GameState state)
+    {
+
+        if (state == GameState.Menu)
+            menuPanel.SetActive(true);
+        else if (state == GameState.Over)
+            deathPanel.SetActive(true);
+        else if (state == GameState.Playing)
+            menuPanel.SetActive(false);
+        else if (state == GameState.Win)
+            winPanel.SetActive(true);
     }
 
     public void PropSelect(PropType type)
@@ -27,16 +48,13 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void ResumeClicked()
+    public void RestartClicked()
     {
-        menuPanel.SetActive(false);
+        SceneManager.LoadSceneAsync("SampleScene");
     }
 
-    private void Update()
+    public void ResumeClicked()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            menuPanel.SetActive(!menuPanel.activeSelf);
-        }
+        GameController.Instance.State = GameState.Playing;
     }
 }

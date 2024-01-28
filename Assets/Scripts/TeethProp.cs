@@ -13,14 +13,16 @@ public class TeethProp : Prop
         base.GuardEnteredTrigger(guardObj);
 
         //attract guard if we're active
-        Guard g = nearbyGuards.Find(x => x.gameObject == guardObj); // should be the newest item
-        g.DistractionSource = transform.position;
-        g.ChangeState(GuardStateType.Distract);
-
-        if (!IsActive && !IsUsed)
+        if (!IsUsed)
         {
             IsActive = true;
             timer = 0f;
+
+            Guard g = nearbyGuards.Find(x => x.gameObject == guardObj); // should be the newest item
+            g.DistractionSource = transform.position;
+            g.ChangeState(GuardStateType.Distract);
+
+            AudioManager.Instance.PlaySFX(SFXType.TeethChatter);
         }
     }
 

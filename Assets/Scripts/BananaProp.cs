@@ -14,6 +14,8 @@ public class BananaProp : Prop
             guard = guardObj.GetComponent<Guard>();
             guard.ChangeState(GuardStateType.Slide);
             IsUsed = true;
+
+            AudioManager.Instance.PlaySFX(SFXType.BananaSlip);
         }
     }
 }
