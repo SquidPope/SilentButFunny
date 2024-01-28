@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
     // Control the game state
     GameState state;
 
+    List<McGuffin> mcGuffins;
+
     GameStateChange stateChange = new GameStateChange();
     public GameStateChange StateChange { get { return stateChange; } }
 
@@ -33,15 +35,38 @@ public class GameController : MonoBehaviour
         get { return state; }
         set
         {
+            //ToDo: If value is win, make sure all active goals are finished
             state = value;
             Debug.Log($"State changed to {state}");
             StateChange.Invoke(state);
         }
     }
 
+    private void Awake()
+    {
+        mcGuffins = new List<McGuffin>();
+    }
+
     private void Start()
     {
         State = GameState.Playing;
+    }
+
+    public void AddMcGuffin(McGuffin mcGuffin)
+    {
+        mcGuffins.Add(mcGuffin);
+    }
+
+    public void CheckWin()
+    {
+        foreach (McGuffin mg in mcGuffins)
+        {
+            if (!mg.GetIsComplete())
+                return;
+        }
+
+        //They're all complete, the player wins!
+        State = GameState.Win;
     }
 
     public void Update()
