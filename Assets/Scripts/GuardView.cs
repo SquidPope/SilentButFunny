@@ -24,7 +24,7 @@ public class GuardView : MonoBehaviour
 
     public void SetPosition(Vector3 position)
     {
-        transform.position = position;//local?
+        transform.position = position;
     }
 
     void OnTriggerEnter2D(Collider2D other)

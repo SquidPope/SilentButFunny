@@ -118,6 +118,8 @@ public class Guard : MonoBehaviour
 
         path = new List<Vector3>();
         alertObj.SetActive(false);
+
+        view.IsActive = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
