@@ -203,6 +203,7 @@ public class Guard : MonoBehaviour
 
             case GuardStateType.Patrol:
             CurrentState = patrol;
+            path.Clear(); //We don't need the path if we're back to patroling.
             break;
 
             case GuardStateType.Repel:
